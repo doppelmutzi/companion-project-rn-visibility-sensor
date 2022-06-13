@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import ListView from "./ListView";
-import {StarWarsCharacter, useStarWars} from './useStarWars'
+import { StarWarsCharacter, useStarWars } from './useStarWars';
 
 /**
  * List of Star Wars characters https://morioh.com/p/e125b83b5d8d
@@ -13,12 +13,20 @@ import {StarWarsCharacter, useStarWars} from './useStarWars'
  * - Verschiedenen Phasen der Entwicklung im Artikel beschreiben
  */
 
+function getAlreadyTracked() {
+  // return [{
+  //   name: "Luke Skywalker",
+  //   picture: ""
+  // }]
+  return []
+}
+
 export default function App() {
   const starWarsPeople: StarWarsCharacter[] = useStarWars() || [];
 
   return (
     <View style={styles.container}>
-      <ListView characters={starWarsPeople} />
+      <ListView characters={starWarsPeople} alreadyTracked={getAlreadyTracked()} />
     </View>
   );
 }
