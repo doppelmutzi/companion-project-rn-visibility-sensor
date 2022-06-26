@@ -1,16 +1,15 @@
 import React from "react";
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+
 import ListView from "./ListView";
-import { StarWarsCharacter, useStarWars } from './useStarWars';
+import { StarWarsCharacter, useStarWars } from "./useStarWars";
 
 /**
  * List of Star Wars characters https://morioh.com/p/e125b83b5d8d
- * 
- * - toggle to switch dark mode -> rerender ListView 
- * - custom hook for fetching and state management
+ *
+ * TODOs
+ * - eslint plugin
  * - 2 configs unterschiedliche Schwellwerte: 1. in viewport dann text nebend dran einblenden oder Foto etwas vergrößern
- * 2. tracking Logik
- * - Verschiedenen Phasen der Entwicklung im Artikel beschreiben
  */
 
 function getAlreadyTracked() {
@@ -18,7 +17,7 @@ function getAlreadyTracked() {
   //   name: "Luke Skywalker",
   //   picture: ""
   // }]
-  return []
+  return [];
 }
 
 export default function App() {
@@ -26,7 +25,10 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ListView characters={starWarsPeople} alreadyTracked={getAlreadyTracked()} />
+      <ListView
+        characters={starWarsPeople}
+        alreadyTracked={getAlreadyTracked()}
+      />
     </SafeAreaView>
   );
 }
@@ -40,4 +42,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
