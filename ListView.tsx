@@ -1,5 +1,6 @@
+import { Inter_900Black, useFonts } from "@expo-google-fonts/inter";
 import React, { useCallback, useState } from "react";
-import { FlatList, Image, Text, View, ViewToken } from "react-native";
+import { Dimensions, FlatList, Image, StyleSheet, Text, View, ViewToken } from "react-native";
 import { StarWarsCharacter } from './useStarWars';
 
 interface ListViewProps {
@@ -12,6 +13,11 @@ type SeenItem = {
 }
 
 export default function ListView({ characters, alreadyTracked }:ListViewProps) {
+
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
+
 
   const [, setAlreadySeen] = useState<SeenItem[]>(
     // initialize state
@@ -65,30 +71,41 @@ export default function ListView({ characters, alreadyTracked }:ListViewProps) {
    */
   return (
     <FlatList
+      style={styles.container}
       data={characters}
       onViewableItemsChanged={onViewableItemsChanged}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
         minimumViewTime: 2000,
       }}
-      renderItem={({ item }) => {
+      renderItem={({ item, index }) => {
 
         return (
           <View
             key={item.name}
             style={{
-              height: 300,
-              width: 350,
+              height: 200,
+              width: Dimensions.get("window").width
             }}
           >
-            <Text>
-              {item.name}
-            </Text>
-            <Image source={{uri: item.picture}}
-            style={{ width: "100%", height: "100%", resizeMode: "center" }} />
+            <View style={{flexDirection: "row", alignItems: "center", padding: 20, backgroundColor: index % 2 === 0 ? "rgb(211,191,129)" : "rgb(162, 162, 70)"}}>
+              <View style={{width: Dimensions.get("window").width * 0.33}}>
+                <Image source={{uri: item.picture}} style={{ width: "100%", height: "100%", resizeMode: "center" }} />
+              </View>
+              <View style={{ paddingLeft: 10, flex: 1}}>
+                <Text style={{ fontFamily: 'Inter_900Black', fontSize: 20 }}>
+                  {item.name}
+                </Text>
+              </View>
+            </View>
           </View>
         )
       }}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+  },
+});

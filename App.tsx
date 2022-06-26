@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import ListView from "./ListView";
 import { StarWarsCharacter, useStarWars } from './useStarWars';
 
@@ -25,16 +25,17 @@ export default function App() {
   const starWarsPeople: StarWarsCharacter[] = useStarWars() || [];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ListView characters={starWarsPeople} alreadyTracked={getAlreadyTracked()} />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: StatusBar.currentHeight,
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#28a745",
     alignItems: "center",
     justifyContent: "center",
   },
