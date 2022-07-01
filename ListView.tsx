@@ -48,45 +48,44 @@ export default function ListView({
   const trackItem = (item: StarWarsCharacter) =>
     console.log("### track " + item.name);
 
-  /*
-    TODO Problematik herausarbeiten in Schritten
-    1. Invariant Violation erzeugen -> useCallback mit empty deps -> track von jedem seen event ✅
-    2. Variante mit deps -> invariant violation wieder erzeugt ❌
-    3. Erklären dass useCallback keine deps haben darf -> Konzept erklären mit useState callbacks kann state/useEffect Kombination und somit dep in useCallback vermieden werden
-    4. Finale Lösung erarbeiten
-  */
   const onViewableItemsChanged = useCallback(
     (info: { changed: ViewToken[] }): void => {
       const visibleItems = info.changed.filter((entry) => entry.isViewable);
-      // perform side effect
-      visibleItems.forEach((visible) => {
-        const exists = alreadySeen.find((prev) => visible.item.name in prev);
-        if (!exists) trackItem(visible.item);
-      });
-      // calculate new state
-      setAlreadySeen([
-        ...alreadySeen,
-        ...visibleItems.map((visible) => ({
-          [visible.item.name]: visible.item,
-        })),
-      ]);
-      // setAlreadySeen((prevState: SeenItem[]) => {
-      //   // perform side effect
-      //   visibleItems.forEach((visible) => {
-      //     const exists = prevState.find((prev) => visible.item.name in prev);
-      //     if (!exists) trackItem(visible.item);
-      //   });
-      //   // calculate new state
-      //   return [
-      //     ...prevState,
-      //     ...visibleItems.map((visible) => ({
-      //       [visible.item.name]: visible.item,
-      //     })),
-      //   ];
+
+      // // 1) problematic code -> alreadySeen is dependency
+      // // perform side effect
+      // visibleItems.forEach((visible) => {
+      //   console.log("alreadySeen", alreadySeen);
+      //   const exists = alreadySeen.find((prev) => visible.item.name in prev);
+      //   if (!exists) trackItem(visible.item);
       // });
+      // // calculate new state
+      // setAlreadySeen([
+      //   ...alreadySeen,
+      //   ...visibleItems.map((visible) => ({
+      //     [visible.item.name]: visible.item,
+      //   })),
+      // ]);
+      // 2) fixes dependency problem
+      setAlreadySeen((prevState: SeenItem[]) => {
+        console.log("alreadySeen", prevState);
+        // perform side effect
+        visibleItems.forEach((visible) => {
+          const exists = prevState.find((prev) => visible.item.name in prev);
+          if (!exists) trackItem(visible.item);
+        });
+        // calculate new state
+        return [
+          ...prevState,
+          ...visibleItems.map((visible) => ({
+            [visible.item.name]: visible.item,
+          })),
+        ];
+      });
     },
+    // 1)
     // [alreadySeen]
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // bad fix
     []
   );
 
