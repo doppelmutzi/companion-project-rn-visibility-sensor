@@ -21,7 +21,7 @@ function getAlreadyTracked() {
 }
 
 export default function App() {
-  const starWarsPeople: StarWarsCharacter[] = useStarWars() || [];
+  const starWarsPeople: StarWarsCharacter[] = useStarWars() ?? [];
 
   return (
     <SafeAreaView style={styles.container}>

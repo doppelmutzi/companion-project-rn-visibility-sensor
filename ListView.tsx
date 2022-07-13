@@ -25,7 +25,7 @@ export default function ListView({
   characters,
   alreadyTracked,
 }: ListViewProps) {
-  console.log("render");
+  // console.log("render");
 
   useFonts({
     Inter_900Black,
@@ -52,6 +52,11 @@ export default function ListView({
     (info: { changed: ViewToken[] }): void => {
       const visibleItems = info.changed.filter((entry) => entry.isViewable);
 
+      // 0)
+      // visibleItems.forEach((visible) => {
+      //   trackItem(visible.item);
+      // });
+
       // // 1) problematic code -> alreadySeen is dependency
       // // perform side effect
       // visibleItems.forEach((visible) => {
@@ -68,7 +73,7 @@ export default function ListView({
       // ]);
       // 2) fixes dependency problem
       setAlreadySeen((prevState: SeenItem[]) => {
-        console.log("alreadySeen", prevState);
+        // console.log("### tracked characters", prevState.length);
         // perform side effect
         visibleItems.forEach((visible) => {
           const exists = prevState.find((prev) => visible.item.name in prev);
