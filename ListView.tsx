@@ -31,7 +31,7 @@ export default function ListView({
     Inter_900Black,
   });
 
-  const [alreadySeen, setAlreadySeen] = useState<SeenItem[]>(
+  const [_alreadySeen, setAlreadySeen] = useState<SeenItem[]>(
     // initialize state
     () => {
       return alreadyTracked.map((item) => {
@@ -52,28 +52,7 @@ export default function ListView({
     (info: { changed: ViewToken[] }): void => {
       const visibleItems = info.changed.filter((entry) => entry.isViewable);
 
-      // 0)
-      // visibleItems.forEach((visible) => {
-      //   trackItem(visible.item);
-      // });
-
-      // // 1) problematic code -> alreadySeen is dependency
-      // // perform side effect
-      // visibleItems.forEach((visible) => {
-      //   console.log("alreadySeen", alreadySeen);
-      //   const exists = alreadySeen.find((prev) => visible.item.name in prev);
-      //   if (!exists) trackItem(visible.item);
-      // });
-      // // calculate new state
-      // setAlreadySeen([
-      //   ...alreadySeen,
-      //   ...visibleItems.map((visible) => ({
-      //     [visible.item.name]: visible.item,
-      //   })),
-      // ]);
-      // 2) fixes dependency problem
       setAlreadySeen((prevState: SeenItem[]) => {
-        // console.log("### tracked characters", prevState.length);
         // perform side effect
         visibleItems.forEach((visible) => {
           const exists = prevState.find((prev) => visible.item.name in prev);
@@ -88,17 +67,9 @@ export default function ListView({
         ];
       });
     },
-    // 1)
-    // [alreadySeen]
-    // bad fix
     []
   );
 
-  /**
-   * 1. In nachgelagertem Kapitel viewabilityConfig erklären
-   * 2. Mehrere configs für verschiedene Use Cases zeigen -> weiterer Effect: visible items visuell hervorheben (Rahmen etc.)
-   * 3. Schauen was man von dem technischen Artikel erwähnenswert ist.
-   */
   return (
     <FlatList
       style={styles.container}
