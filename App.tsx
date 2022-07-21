@@ -6,10 +6,6 @@ import { StarWarsCharacter, useStarWars } from "./useStarWars";
 
 /**
  * List of Star Wars characters https://morioh.com/p/e125b83b5d8d
- *
- * TODOs
- * - eslint plugin
- * - 2 configs unterschiedliche Schwellwerte: 1. in viewport dann text nebend dran einblenden oder Foto etwas vergrößern
  */
 
 function getAlreadyTracked() {
