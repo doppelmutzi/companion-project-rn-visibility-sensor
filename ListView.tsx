@@ -40,11 +40,6 @@ export default function ListView({
     }
   );
 
-  /*
-  ExceptionsManager.js:149 Invariant Violation: Changing onViewableItemsChanged on the fly is not supported
-  https://localcoder.org/flatlist-scrollview-error-on-any-state-change-invariant-violation-changing-on#:~:text=The%20error%20Changing%20onViewableItemsChanged%20on,correct%20hook%20in%20this%20case.
-  */
-
   const trackItem = (item: StarWarsCharacter) =>
     console.log("### track " + item.name);
 
